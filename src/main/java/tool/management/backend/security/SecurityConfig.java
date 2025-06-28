@@ -34,6 +34,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/company/all").permitAll()
                                 .requestMatchers("/api/auth/token/validation").permitAll()
                                 .requestMatchers("/api/employee/add").authenticated()
+                                .requestMatchers("/api/employee/edit").authenticated()
                                 .anyRequest().authenticated())
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

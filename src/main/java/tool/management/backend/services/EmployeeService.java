@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tool.management.backend.dto.EmployeeAddRequest;
+import tool.management.backend.dto.EmployeeEditRequest;
 import tool.management.backend.models.Company;
 import tool.management.backend.models.Employee;
 import tool.management.backend.repositories.CompanyRepository;
@@ -30,6 +31,17 @@ public class EmployeeService {
                 json.getDataLicenziamento(),
                 company);
         return employeeRepository.save(newEmployee);
+    }
+
+    public Employee employeeEdit(EmployeeEditRequest json, Long id) {
+        Employee employee = employeeRepository.findById(id).get();
+        employee.setNome(json.getNome());
+        employee.setCognome(json.getCognome());
+        employee.setDataNascita(json.getDataNascita());
+        employee.setDataAssunzione(json.getDataAssunzione());
+        employee.setDataLicenziamento(json.getDataLicenziamento());
+        employee.setRal(json.getRal());
+        return employeeRepository.save(employee);
     }
 
 }

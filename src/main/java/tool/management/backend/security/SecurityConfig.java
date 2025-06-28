@@ -30,7 +30,9 @@ public class SecurityConfig {
         http.cors().and().csrf().disable()
                 .authorizeHttpRequests(
                         auth -> auth.requestMatchers("/api/auth/login").permitAll()
-                                .requestMatchers("/api/auth/register").permitAll())
+                                .requestMatchers("/api/auth/register").permitAll()
+                                .requestMatchers("/api/company/all").permitAll()
+                                .requestMatchers("/api/auth/token/validation").permitAll())
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(

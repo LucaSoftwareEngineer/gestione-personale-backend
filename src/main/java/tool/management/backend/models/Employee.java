@@ -1,13 +1,12 @@
 package tool.management.backend.models;
 
-import jakarta.persistence.Column;
+import java.sql.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,22 +18,21 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "gestione_personale_users")
-public class User {
+@Table(name = "gestione_personale_dipendenti")
+public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUser;
+    private Long idEmployee;
 
-    @Column(unique = true)
-    private String username;
-    private String password;
+    private String nome;
+    private String cognome;
+    private Date dataNascita;
+    private Date dataAssunzione;
+    private float ral;
+    private Date dataLicenziamento;
 
-    private String role;
-    private String name;
-    private String surname;
-
-    @ManyToOne // molti utenti possono essere associati ad una azienda
-    @JoinColumn(name = "id_company")
+    @ManyToOne
     private Company company;
+
 }

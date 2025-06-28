@@ -16,9 +16,12 @@ import lombok.RequiredArgsConstructor;
 import tool.management.backend.dto.AuthRequest;
 import tool.management.backend.dto.AuthResponse;
 import tool.management.backend.dto.RegisterRequest;
+import tool.management.backend.dto.TokenValidationRequest;
+import tool.management.backend.dto.TokenValidationResponse;
 import tool.management.backend.models.User;
 import tool.management.backend.repositories.UserRepository;
 import tool.management.backend.security.JwtUtil;
+import tool.management.backend.services.UserService;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -28,8 +31,8 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
-    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody AuthRequest request) {
@@ -44,9 +47,25 @@ public class AuthController {
 
     @PostMapping("/register")
     public void registerUser(@RequestBody RegisterRequest request) {
-        String hashedPassword = passwordEncoder.encode(request.getRawPassword());
-        User user = new User(null, request.getUsername(), hashedPassword, request.getRole());
-        userRepository.save(user);
+        userService.save(request);
+    }
+
+    @PostMapping("/token/validation")
+    public TokenValidationResponse postMethodName(@RequestBody TokenValidationRequest request) {
+
+        String token = request.getToken();
+
+        try {
+            String username = jwtUtil.extractUsername(token);
+            boolean isValido = jwtUtil.validateToken(token, username);
+            if (isValido) {
+                return new TokenValidationResponse(true);
+            } else {
+                return new TokenValidationResponse(false);
+            }
+        } catch (Exception e) {
+            return new TokenValidationResponse(false);
+        }
     }
 
 }

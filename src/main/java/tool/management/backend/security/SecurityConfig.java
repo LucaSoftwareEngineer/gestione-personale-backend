@@ -32,7 +32,9 @@ public class SecurityConfig {
                         auth -> auth.requestMatchers("/api/auth/login").permitAll()
                                 .requestMatchers("/api/auth/register").permitAll()
                                 .requestMatchers("/api/company/all").permitAll()
-                                .requestMatchers("/api/auth/token/validation").permitAll())
+                                .requestMatchers("/api/auth/token/validation").permitAll()
+                                .requestMatchers("/api/employee/add").authenticated()
+                                .anyRequest().authenticated())
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(

@@ -34,7 +34,7 @@ public class User {
     private String name;
     private String surname;
 
-    @ManyToOne // molti utenti possono essere associati ad una azienda
+    @ManyToOne // molti utenti possono essere associati alla stessa azienda
     @JoinColumn(name = "id_company")
     private Company company;
 }
